@@ -4,8 +4,8 @@ import java.util.List;
 
 public class Game {
 
-    private static final Integer NB_MAX_PIN = 10;
-    private static final Integer NB_FRAME = 10;
+    public static final Integer NB_MAX_PIN = 10;
+    public static final Integer NB_FRAME = 10;
 
     private Integer score = 0;
     private Integer bonusBall = 0;
