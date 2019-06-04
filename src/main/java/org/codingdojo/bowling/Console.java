@@ -20,52 +20,52 @@ public class Console implements Customer {
 
             Scanner scanner = new Scanner(System.in);
 
-            Integer aTry_1 = this.readEntry(i,1,scanner);
+            Integer aTry_1 = this.readEntry(i, 1, scanner);
 
-            log.info(" == " + aTry_1);
-
-            if (aTry_1.equals(Game.NB_MAX_PIN)) {
+            Frame frame = null;
+            if (aTry_1.equals(Frame.TOTAL_PIN)) {
                 log.info(" ** Strike ! **");
-                Frame frame = new Frame(10,10);
+                frame = SpikeFrame.create(10, 10);
                 frames.add(frame);
 
                 if (i == Game.NB_FRAME) {
                     this.spikeBonus(scanner, frame);
                 }
-
                 continue;
             }
 
-            Integer aTry_2 = this.readEntry(i,2,scanner);
+            Integer aTry_2 = this.readEntry(i, 2, scanner);
 
-            Frame frame = new Frame(aTry_1, aTry_2);
-
-            if (aTry_1 + aTry_2 == Game.NB_MAX_PIN) {
+            if (aTry_1 + aTry_2 == Frame.TOTAL_PIN) {
                 log.info(" ** Spare ! **");
-
+                frame = SpareFrame.create(aTry_1, aTry_2);
                 if (i == Game.NB_FRAME) {
                     this.spareBonus(scanner, frame);
                 }
             }
 
+            if (aTry_1 + aTry_2 < Frame.TOTAL_PIN) {
+                log.info(" ** Open ! **");
+                frame = OpenFrame.create(aTry_1, aTry_2);
+            }
             frames.add(frame);
         }
+        frames.forEach(frame -> log.info("[" + frame.getFirstThrow() + ", " + frame.getSecondThrow() + "]"));
 
-        frames.forEach(frame -> log.info("[" +frame.getFirstThrow() + ", " + frame.getSecondThrow() + "]" ));
-
-        log.info(" Your Score : " + game.getScore(frames));
+        log.info(" Your Score : " + game.score(frames));
     }
 
-    private Integer readEntry(Integer frameNumber, Integer tryNumber , Scanner scanner) {
 
-        log.info(" **** Try " + tryNumber +" : Number between [0 - 10] for number of pin down ** ");
+    private Integer readEntry(Integer frameNumber, Integer tryNumber, Scanner scanner) {
+
+        log.info(" **** Try " + tryNumber + " : Number between [0 - 10] for number of pin down ** ");
 
         boolean valide = false;
         Integer entry = null;
-        while(!valide) {
+        while (!valide) {
             try {
                 entry = scanner.nextInt();
-                valide = isValideEntry(entry);
+                valide = isValidEntry(entry);
 
                 if (!valide) {
 
@@ -80,9 +80,10 @@ public class Console implements Customer {
     }
 
 
-    private boolean isValideEntry(Integer entry) {
+    private boolean isValidEntry(Integer entry) {
         return entry <= 10;
     }
+
 
     private void spikeBonus(Scanner scanner, Frame frame) {
         log.info(" **** You have 2 Bonus Ball : Number between [0 - 10] for number of pin down ** ");
@@ -95,6 +96,7 @@ public class Console implements Customer {
         frame.getBonusBall().add(bonus1);
         frame.getBonusBall().add(bonus2);
     }
+
 
     private void spareBonus(Scanner scanner, Frame frame) {
         log.info(" ****** You have 1 Bonus Ball : Number between [0 - 10] for number of pin down ** ");
