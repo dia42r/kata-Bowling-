@@ -4,22 +4,6 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class FrameHelper {
 
-
-    public static Boolean isSpike(String s) {
-        return s.equals("X");
-    }
-
-
-    public static Boolean  isSpare(String firstThrow, String secondThrow) {
-        return isInteger(firstThrow) && secondThrow.equals("/");
-    }
-
-
-    public static Boolean isOpen(String firstThrow, String secondThrow) {
-        return (parse(firstThrow) + parse(secondThrow)) < 10;
-    }
-
-
     public static Boolean isInteger(String str) {
         try {
             Integer.parseInt(str);
@@ -31,7 +15,7 @@ public class FrameHelper {
 
 
     public static Integer parse(String aThrow) {
-        if (aThrow.equals("X"))
+        if (aThrow.equals("X") || aThrow.equals("/"))
             return 10;
         else if (aThrow.equals("-"))
             return 0;

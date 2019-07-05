@@ -2,15 +2,13 @@ package org.codingdojo.bowling;
 
 import org.codingdojo.bowling.business.*;
 import org.junit.Test;
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
 /**
  * Integration Test
  */
-public class IScoreTest {
+public class BowlingScoreCalculationIntegrationTest {
 
     /**
      * scoring “X” indicates a strike, “/” indicates a spare, “-” indicates a miss)
@@ -24,11 +22,11 @@ public class IScoreTest {
     @Test
     public void shouldReturnPerfectGameScore() {
 
-        Score score = new Score();
+        ScoreService scoreService = new ScoreService();
         String input = "XXXXXXXXXXXX";
-        BowlingScoreCalculation bowlingScoreCalculation = new BowlingScoreCalculation(new Score(), input);
+        BowlingScoreCalculation bowlingScoreCalculation = new BowlingScoreCalculation(scoreService);
 
-        assertEquals(Integer.valueOf(300),  bowlingScoreCalculation.getScore());
+        assertEquals(Integer.valueOf(300),  bowlingScoreCalculation.getScore(input));
 
     }
 
@@ -39,11 +37,11 @@ public class IScoreTest {
     @Test
     public void shouldReturnSparesScore() {
 
-        Score score = new Score();
+        ScoreService scoreService = new ScoreService();
         String input = "5/5/5/5/5/5/5/5/5/5/5";
-        BowlingScoreCalculation bowlingScoreCalculation = new BowlingScoreCalculation(new Score(), input);
+        BowlingScoreCalculation bowlingScoreCalculation = new BowlingScoreCalculation(scoreService);
 
-        assertEquals(Integer.valueOf(150),  bowlingScoreCalculation.getScore());
+        assertEquals(Integer.valueOf(150),  bowlingScoreCalculation.getScore(input));
 
     }
 
@@ -53,11 +51,11 @@ public class IScoreTest {
     @Test
     public void shouldReturnMixedFrameScore() {
 
-        Score score = new Score();
+        ScoreService scoreService = new ScoreService();
         String input = "X7/729/XXX236/7/3";
-        BowlingScoreCalculation bowlingScoreCalculation = new BowlingScoreCalculation(new Score(), input);
+        BowlingScoreCalculation bowlingScoreCalculation = new BowlingScoreCalculation(scoreService);
 
-        assertEquals(Integer.valueOf(168),  bowlingScoreCalculation.getScore());
+        assertEquals(Integer.valueOf(168),  bowlingScoreCalculation.getScore(input));
     }
 
     /**
@@ -66,10 +64,10 @@ public class IScoreTest {
     @Test
     public void shouldReturnFrameScore() {
 
-        Score score = new Score();
+        ScoreService scoreService = new ScoreService();
         String input = "9-9-9-9-9-9-9-9-9-9-";
-        BowlingScoreCalculation bowlingScoreCalculation = new BowlingScoreCalculation(new Score(), input);
+        BowlingScoreCalculation bowlingScoreCalculation = new BowlingScoreCalculation(scoreService);
 
-        assertEquals(Integer.valueOf(90),  bowlingScoreCalculation.getScore());
+        assertEquals(Integer.valueOf(90),  bowlingScoreCalculation.getScore(input));
     }
 }
